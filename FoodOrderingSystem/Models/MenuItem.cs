@@ -13,6 +13,7 @@
         public string Category { get; set; }
 
         public int QuantityAvailable { get; set; }
+         public string ImageUrl { get; set; }
 
 
     }

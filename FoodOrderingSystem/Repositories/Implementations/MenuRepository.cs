@@ -35,7 +35,8 @@ namespace FoodOrderingSystem.Repositories.Implementations
                             Description = reader["Description"].ToString(),
                             Price = (decimal)reader["Price"],
                             Category = reader["Category"].ToString(),
-                            QuantityAvailable = (int)reader["QuantityAvailable"]
+                            QuantityAvailable = (int)reader["QuantityAvailable"],
+                            ImageUrl = reader["ImageUrl"] == DBNull.Value ? null : reader["ImageUrl"].ToString()
                         });
                     }
                 }
@@ -67,7 +68,8 @@ namespace FoodOrderingSystem.Repositories.Implementations
                                 Description = reader["Description"].ToString(),
                                 Price = (decimal)reader["Price"],
                                 Category = reader["Category"].ToString(),
-                                QuantityAvailable = (int)reader["QuantityAvailable"]
+                                QuantityAvailable = (int)reader["QuantityAvailable"],
+                                ImageUrl = reader["ImageUrl"] == DBNull.Value ? null : reader["ImageUrl"].ToString()
                             };
                         }
                     }
@@ -84,7 +86,7 @@ namespace FoodOrderingSystem.Repositories.Implementations
             using (var connection = new SqlConnection(connectionstring))
             {
                 connection.Open();
-                string query = "INSERT INTO MenuItems (Name, Description, Price, Category, QuantityAvailable) VALUES (@Name, @Description, @Price, @Category, @QuantityAvailable)";
+                string query = "INSERT INTO MenuItems (Name, Description, Price, Category, QuantityAvailable, ImageUrl) VALUES (@Name, @Description, @Price, @Category, @QuantityAvailable, @ImageUrl)";
 
                 using (var command = new SqlCommand(query, connection))
                 {
@@ -93,6 +95,7 @@ namespace FoodOrderingSystem.Repositories.Implementations
                     command.Parameters.AddWithValue("@Price", item.Price);
                     command.Parameters.AddWithValue("@Category", item.Category);
                     command.Parameters.AddWithValue("@QuantityAvailable", item.QuantityAvailable);
+                    command.Parameters.AddWithValue("@ImageUrl", (object)item.ImageUrl ?? DBNull.Value);
 
                     command.ExecuteNonQuery();
                 }
@@ -119,7 +122,7 @@ namespace FoodOrderingSystem.Repositories.Implementations
             using (var connection = new SqlConnection(connectionstring))
             {
                 connection.Open();
-                string query = "UPDATE MenuItems SET Name=@Name, Description=@Description, Price=@Price, Category=@Category, QuantityAvailable=@QuantityAvailable WHERE ItemId=@ItemId";
+                string query = "UPDATE MenuItems SET Name=@Name, Description=@Description, Price=@Price, Category=@Category, QuantityAvailable=@QuantityAvailable, ImageUrl=@ImageUrl WHERE ItemId=@ItemId";
 
                 using (var command = new SqlCommand(query, connection))
                 {
@@ -129,6 +132,7 @@ namespace FoodOrderingSystem.Repositories.Implementations
                     command.Parameters.AddWithValue("@Price", item.Price);
                     command.Parameters.AddWithValue("@Category", item.Category);
                     command.Parameters.AddWithValue("@QuantityAvailable", item.QuantityAvailable);
+                    command.Parameters.AddWithValue("@ImageUrl", (object)item.ImageUrl ?? DBNull.Value);
 
                     command.ExecuteNonQuery();
                 }

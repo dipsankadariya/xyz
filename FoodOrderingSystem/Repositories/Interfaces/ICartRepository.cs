@@ -11,7 +11,7 @@ namespace FoodOrderingSystem.Repositories.Interfaces
         void UpdateCartItem(int userId, int itemId, int quantity);
 
         void RemoveFromCart(int userId, int itemId);
-        void clearCart(int userId);
+        void ClearCart(int userId);
 
 
     }
