@@ -1,0 +1,74 @@
+﻿@model List<MenuItem>
+@{
+    ViewData["Title"] = "Admin Dashboard";
+}
+
+<h1>Admin Dashboard</h1>
+
+<p class="mb-4">
+    Welcome, Admin! Manage your menu items here.
+</p>
+
+<div class="mb-4">
+    <a href="/Admin/AddMenuItem" class="btn btn-success">Add New Menu Item</a>
+</div>
+
+<h2>Menu Items</h2>
+
+@if (Model.Count == 0)
+{
+    <div class="alert alert-info">
+        No menu items found. <a href="/Admin/AddMenuItem">Add your first item</a>
+    </div>
+}
+else
+{
+    <table class="table table-bordered table-striped">
+        <thead class="table-dark">
+            <tr>
+                <th>ID</th>
+                <th>Image</th>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Price</th>
+                <th>Category</th>
+                <th>Available</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.ItemId</td>
+                    <td>
+                        @if (!string.IsNullOrEmpty(item.ImageUrl))
+                        {
+                            <img src="@item.ImageUrl" alt="@item.Name" style="width: 60px; height: 60px; object-fit: cover;">
+                        }
+                        else
+                        {
+                            <span class="text-muted">No Image</span>
+                        }
+                    </td>
+                    <td>@item.Name</td>
+                    <td>@item.Description</td>
+                    <td>$@item.Price</td>
+                    <td>@item.Category</td>
+                    <td>@item.QuantityAvailable</td>
+                    <td>
+                        <a href="/Admin/EditMenuItem/@item.ItemId" class="btn btn-warning btn-sm mb-1">Edit</a>
+                        <br>
+                        <!-- @item.Name -->
+                        <a href="/Admin/DeleteMenuItem/@item.ItemId" class="btn btn-danger btn-sm"
+                           onclick="return confirm('Are you sure you want to delete &quot;@item.Name&quot;?')">
+                            Delete
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <p>Total Items: @Model.Count</p>
+}

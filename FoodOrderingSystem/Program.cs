@@ -1,3 +1,4 @@
+using FoodOrderingSystem.Models;
 using FoodOrderingSystem.Repositories.Implementations;
 using FoodOrderingSystem.Repositories.Interfaces;
 using FoodOrderingSystem.Services;
@@ -19,7 +20,28 @@ builder.Services.AddScoped<ICartRepository, CartRepository>();
 
 builder.Services.AddScoped<AuthServices>();
 
+
 var app = builder.Build();
+using (var scope = app.Services.CreateScope())
+{
+    var userRepo = scope.ServiceProvider.GetRequiredService<IUserRepository>();
+
+    // Check if admin exists
+    if (userRepo.GetUserByUsername("admin") == null)
+    {
+        var adminUser = new User
+        {
+            Username = "admin",
+            Email = "admin@food.com",
+            PasswordHash = BCrypt.Net.BCrypt.HashPassword("Admin@123"),
+            Role = "Admin"
+        };
+
+        userRepo.AddUser(adminUser);
+        Console.WriteLine("Admin user created!");
+    }
+}
+
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
@@ -37,6 +59,6 @@ app.UseSession();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+    pattern: "{controller=Account}/{action=Register}/{id?}");
 
 app.Run();

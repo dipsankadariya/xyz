@@ -1,42 +1,92 @@
-﻿@model List<MenuItem>
-
-<h1>Food Menu</h1>
-
-@if (Context.Session.GetString("Username") != null)
-{
-    <p>
-        Welcome, @Context.Session.GetString("Username")!
-        <a href="/Account/Logout">Logout</a> |
-        <a href="/Cart">View Cart</a>
-    </p>
-}
-else
-{
-    <p><a href="/Account/Login">Login</a> | <a href="/Account/Register">Register</a></p>
+﻿@{
+    ViewData["Title"] = "Home";
 }
 
-<div class="row">
-    @foreach (var item in Model)
-    {
-        <div class="col-md-4 mb-4">
+<div class="text-center">
+    <h1 class="display-4">Welcome to the PITS Cafe</h1>
+    <p class="lead">101% Vegetarian Authentic Nepali Cuisine & Fast Food</p>
+    <div class="row mt-5">
+        <div class="col-md-4">
             <div class="card">
-                @if (!string.IsNullOrEmpty(item.ImageUrl))
-                {
-                    <img src="@item.ImageUrl" class="card-img-top" alt="@item.Name" style="height: 200px; object-fit: cover;">
-                }
                 <div class="card-body">
-                    <h5 class="card-title">@item.Name</h5>
-                    <p class="card-text">@item.Description</p>
-                    <p class="card-text"><strong>Price: $@item.Price</strong></p>
-                    <p class="card-text">Category: @item.Category</p>
-                    <p class="card-text">Available: @item.QuantityAvailable</p>
-
-                    @if (Context.Session.GetString("Role") == "Customer")
-                    {
-                        <a href="/Cart/Add?itemId=@item.ItemId" class="btn btn-primary">Add to Cart</a>
-                    }
+                    <h5 class="card-title">🍽️ Fresh Food</h5>
+                    <p class="card-text">Delicious Nepali  dishes made with fresh ingredients daily.</p>
                 </div>
             </div>
         </div>
-    }
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">🚚 Fast Delivery</h5>
+                    <p class="card-text">Get your favorite meals delivered to your doorstep within 30 minutes.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">⭐ Best Quality</h5>
+                    <p class="card-text">We maintain highest quality standards in all our food preparations.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="mt-5">
+        <h3>Our Specialties</h3>
+        <div class="row mt-3">
+            <div class="col-md-4">
+                <div class="text-center">
+                    <div style="font-size: 3rem;">🥟</div>
+                    <h5>Momo</h5>
+                    <p>Authentic Nepali dumplings</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="text-center">
+                    <div style="font-size: 3rem;">🍜</div>
+                    <h5>Thupka</h5>
+                    <p>Hot noodle soup</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="text-center">
+                    <div style="font-size: 3rem;">🥘</div>
+                    <h5>Chana Fry</h5>
+                    <p>Spicy chickpeas</p>
+                </div>
+            </div>
+            <div class="col-md-4 mt-4">
+                <div class="text-center">
+                    <div style="font-size: 3rem;">🥡</div>
+                    <h5>Veg Chowmein</h5>
+                    <p>Stir-fried noodles with vegetables</p>
+                </div>
+            </div>
+            <div class="col-md-4 mt-4">
+                <div class="text-center">
+                    <div style="font-size: 3rem;">🍲</div>
+                    <h5>Wai Wai Sadheko</h5>
+                    <p>Spicy stir-fried instant noodles</p>
+                </div>
+            </div>
+            <div class="col-md-4 mt-4">
+                <div class="text-center">
+                    <div style="font-size: 3rem;">🥞</div>
+                    <h5>Paratha</h5>
+                    <p> flatbread with potato fillings</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="mt-5">
+        <a href="/Home/Foods" class="btn btn-primary btn-lg me-3">View Menu</a>
+    </div>
+
+    <div class="mt-5 text-muted">
+        <h4>Opening Hours</h4>
+        <p>Monday - Sunday: 10:00 AM - 4:30PM</p>
+        <p>📍 Birtamode, Nepal | 📞 +977 </p>
+    </div>
 </div>

@@ -1,10 +1,10 @@
 ﻿@model List<CartItem>
 
-<h1>Your Cart</h1>
+<h1>Your Food Cart</h1>
 
 @if (Model.Count == 0)
 {
-    <p>Your cart is empty. <a href="/">Continue shopping</a></p>
+    <p>Your cart is empty. <a href="/">Add Food Items to Order</a></p>
 }
 else
 {
@@ -29,9 +29,9 @@ else
                         }
                         @item.Name
                     </td>
-                    <td>$@item.Price</td>
+                    <td>Rs @item.Price.ToString("N0")</td>
                     <td>@item.Quantity</td>
-                    <td>$@item.Subtotal</td>
+                    <td>Rs @item.Subtotal.ToString("N0")</td>
                     <td>
                         <a href="/Cart/Remove?itemId=@item.ItemId" class="btn btn-danger btn-sm">Remove</a>
                     </td>
@@ -41,14 +41,14 @@ else
         <tfoot>
             <tr>
                 <td colspan="3" class="text-end"><strong>Total:</strong></td>
-                <td><strong>$@ViewBag.Total</strong></td>
+                <td><strong>Rs @ViewBag.Total.ToString("N0")</strong></td>
                 <td></td>
             </tr>
         </tfoot>
     </table>
 
     <div>
-        <a href="/" class="btn btn-secondary">Continue Shopping</a>
+        <a href="/" class="btn btn-secondary">Add More Food</a>
         <a href="/Order/Checkout" class="btn btn-success">Checkout</a>
     </div>
 }

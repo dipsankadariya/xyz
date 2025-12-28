@@ -1,0 +1,67 @@
+﻿@model MenuItem
+@{
+    ViewData["Title"] = "Add Menu Item";
+}
+
+<div class="container mt-5">
+    <h1 class="mb-4">Add New Menu Item</h1>
+
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <form method="post" class="card p-4 shadow-sm bg-white rounded">
+
+                <div class="mb-3">
+                    <label for="Name" class="form-label fw-semibold">Item Name <span class="text-danger">*</span></label>
+                    <input type="text" class="form-control" id="Name" name="Name" required
+                           placeholder="e.g., Waiwai Sadheko, Chana Murai, Thuppa, Samosa, Momo, Puri Sabji">
+                </div>
+
+                <div class="mb-3">
+                    <label for="Description" class="form-label fw-semibold">Description <span class="text-danger">*</span></label>
+                    <textarea class="form-control" id="Description" name="Description" rows="3" required
+                              placeholder="Describe the item..."></textarea>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="Price" class="form-label fw-semibold">Price (Rs) <span class="text-danger">*</span></label>
+                        <div class="input-group">
+                            <span class="input-group-text">Rs</span>
+                            <input type="number" step="0.01" class="form-control" id="Price" name="Price" required
+                                   placeholder="150" min="0">
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        <label for="Category" class="form-label fw-semibold">Category <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" id="Category" name="Category" required
+                               placeholder="e.g., Snacks, Main Course, Drinks">
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="QuantityAvailable" class="form-label fw-semibold">Quantity Available <span class="text-danger">*</span></label>
+                        <input type="number" class="form-control" id="QuantityAvailable" name="QuantityAvailable" required
+                               min="0" value="10">
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        <label for="ImageUrl" class="form-label fw-semibold">Image URL (Optional)</label>
+                        <input type="text" class="form-control" id="ImageUrl" name="ImageUrl"
+                               placeholder="https://example.com/image.jpg">
+                        <small class="text-muted">Leave empty if no image available</small>
+                    </div>
+                </div>
+
+                <div class="d-flex justify-content-between mt-4">
+                    <button type="submit" class="btn btn-primary">Add Menu Item</button>
+                    <a href="/Admin" class="btn btn-outline-secondary">Cancel</a>
+                </div>
+
+                <p class="text-muted mt-3"><small><span class="text-danger">*</span> Required fields</small></p>
+
+            </form>
+        </div>
+    </div>
+</div>
