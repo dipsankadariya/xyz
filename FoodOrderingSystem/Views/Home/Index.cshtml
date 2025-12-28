@@ -1,8 +1,42 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿@model List<MenuItem>
+
+<h1>Food Menu</h1>
+
+@if (Context.Session.GetString("Username") != null)
+{
+    <p>
+        Welcome, @Context.Session.GetString("Username")!
+        <a href="/Account/Logout">Logout</a> |
+        <a href="/Cart">View Cart</a>
+    </p>
+}
+else
+{
+    <p><a href="/Account/Login">Login</a> | <a href="/Account/Register">Register</a></p>
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="row">
+    @foreach (var item in Model)
+    {
+        <div class="col-md-4 mb-4">
+            <div class="card">
+                @if (!string.IsNullOrEmpty(item.ImageUrl))
+                {
+                    <img src="@item.ImageUrl" class="card-img-top" alt="@item.Name" style="height: 200px; object-fit: cover;">
+                }
+                <div class="card-body">
+                    <h5 class="card-title">@item.Name</h5>
+                    <p class="card-text">@item.Description</p>
+                    <p class="card-text"><strong>Price: $@item.Price</strong></p>
+                    <p class="card-text">Category: @item.Category</p>
+                    <p class="card-text">Available: @item.QuantityAvailable</p>
+
+                    @if (Context.Session.GetString("Role") == "Customer")
+                    {
+                        <a href="/Cart/Add?itemId=@item.ItemId" class="btn btn-primary">Add to Cart</a>
+                    }
+                </div>
+            </div>
+        </div>
+    }
 </div>

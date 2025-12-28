@@ -5,7 +5,6 @@ namespace FoodOrderingSystem.Controllers
 {
     public class CartController : Controller
     {
-
         private readonly ICartRepository _cartRepository;
         private readonly IMenuRepository _menuRepository;
 
@@ -18,34 +17,43 @@ namespace FoodOrderingSystem.Controllers
         public IActionResult Index()
         {
             var userId = HttpContext.Session.GetInt32("UserId");
+            var role = HttpContext.Session.GetString("Role");
 
             if (userId == null)
             {
                 return RedirectToAction("Login", "Account");
+            }
+
+            if (role != "Customer")
+            {
+                return Forbid();
             }
 
             var cart = _cartRepository.GetCartItems(userId.Value);
 
             decimal total = 0;
-
             foreach (var item in cart)
             {
-                total = total + item.Subtotal;
+                total += item.Subtotal;
             }
 
             ViewBag.Total = total;
-
             return View(cart);
         }
-
 
         public IActionResult Add(int itemId)
         {
             var userId = HttpContext.Session.GetInt32("UserId");
+            var role = HttpContext.Session.GetString("Role");
 
             if (userId == null)
             {
                 return RedirectToAction("Login", "Account");
+            }
+
+            if (role != "Customer")
+            {
+                return Forbid();
             }
 
             _cartRepository.AddToCart(userId.Value, itemId, 1);
@@ -54,17 +62,21 @@ namespace FoodOrderingSystem.Controllers
 
         public IActionResult Remove(int itemId)
         {
-
             var userId = HttpContext.Session.GetInt32("UserId");
+            var role = HttpContext.Session.GetString("Role");
 
             if (userId == null)
             {
                 return RedirectToAction("Login", "Account");
             }
 
+            if (role != "Customer")
+            {
+                return Forbid();
+            }
+
             _cartRepository.RemoveFromCart(userId.Value, itemId);
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Index");
         }
     }
-
 }

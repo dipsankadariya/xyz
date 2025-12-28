@@ -24,10 +24,12 @@ namespace FoodOrderingSystem.Controllers
             return View(items);
         }
         [HttpGet]
-        public IActionResult AddItem() {
+        public IActionResult AddItem()
+        {
 
             var role = HttpContext.Session.GetString("Role");
-            if (role != "Admin") {
+            if (role != "Admin")
+            {
                 return RedirectToAction("Login", "Account");
             }
             return View();
@@ -48,18 +50,17 @@ namespace FoodOrderingSystem.Controllers
 
         }
 
-
         [HttpGet]
-
-        public IActionResult EditItem(int id) {
+        public IActionResult EditItem(int id)
+        {
             var role = HttpContext.Session.GetString("Role");
-            if(role != "Admin")
+            if (role != "Admin")
             {
                 return RedirectToAction("Login", "Account");
             }
 
-           var item= _menuRepository.GetMenuItemById(id);
-            if(item == null)
+            var item = _menuRepository.GetMenuItemById(id);
+            if (item == null)
             {
                 return RedirectToAction("Index");
             }
@@ -67,8 +68,29 @@ namespace FoodOrderingSystem.Controllers
             return View(item);
         }
 
-        [HttpPost]
 
-        public IActionResult 
+        [HttpPost]
+        public IActionResult EditItem(MenuItem item)
+        {
+            var role = HttpContext.Session.GetString("Role");
+            if (role != "Admin")
+            {
+                return RedirectToAction("Login","Account");
+            }
+            _menuRepository.UpdateMenuItem(item);
+               return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        public IActionResult DeleteItem(int id) {
+
+            var role = HttpContext.Session.GetString("Role");
+            if(role != "Admin")
+            {
+                return RedirectToAction("Login", "Account");
+            }
+            _menuRepository.DeleteMenuItem(id);
+            return RedirectToAction("Index");
+        }
     }
 }

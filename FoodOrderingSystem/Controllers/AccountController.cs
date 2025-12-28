@@ -6,11 +6,24 @@ namespace FoodOrderingSystem.Controllers
     public class AccountController : Controller
     {
         private readonly AuthServices _authServices;
-        public AccountController(AuthServices authServices) { 
-        _authServices = authServices;
+        public AccountController(AuthServices authServices)
+        {
+            _authServices = authServices;
         }
 
-        public IActionResult Login() { 
+        // GET: /account/login
+        public IActionResult Login()
+        {
+            var userId = HttpContext.Session.GetInt32("UserId"); // fix
+            var role = HttpContext.Session.GetString("Role");
+
+            if (userId != null)
+            {
+                if (role == "Admin")
+                    return RedirectToAction("Index", "Admin");
+                else
+                    return RedirectToAction("Index", "Home");
+            }
             return View();
         }
 
@@ -23,7 +36,7 @@ namespace FoodOrderingSystem.Controllers
             {
                 HttpContext.Session.SetInt32("UserId", user.UserId);
                 HttpContext.Session.SetString("Username", user.Username);
-                HttpContext.Session.SetString("Role" ,user.Role);
+                HttpContext.Session.SetString("Role", user.Role);
 
                 if (user.Role == "Admin")
                     return RedirectToAction("Index", "Admin");
@@ -35,11 +48,14 @@ namespace FoodOrderingSystem.Controllers
             return View();
         }
 
-
         public IActionResult Register()
         {
+            if (HttpContext.Session.GetInt32("UserId") != null) // fix
+                return RedirectToAction("Index", "Home");
+
             return View();
         }
+
         [HttpPost]
         public IActionResult Register(string username, string password, string email)
         {
@@ -51,13 +67,10 @@ namespace FoodOrderingSystem.Controllers
             return View();
         }
 
-
         public IActionResult Logout()
         {
             HttpContext.Session.Clear();
             return RedirectToAction("Index", "Home");
-
         }
-
     }
 }
