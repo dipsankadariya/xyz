@@ -19,22 +19,19 @@ namespace FoodOrderingSystem.Repositories.Implementations
             using(var connection = new SqlConnection(connectionstring))
             {
                 connection.Open();
-                //first check if the item already in cart or not exists or not..
-                //checking query
+              
                 string query = "SELECT COUNT(*) FROM  Carts WHERE UserId= @UserId  and ItemId= @ItemId";
                 bool exists = false;
                 using(var command = new SqlCommand(query, connection) )
                 {
                     command.Parameters.AddWithValue("@UserId", userId);
                     command.Parameters.AddWithValue("@ItemId", itemId);
-                    //execute the command and checks whether there is at least one row matching the query.
-                    //ff yes, exists becomes true; if not, it becomes false.
                     exists = (int)command.ExecuteScalar() >0;
 
                 }
                 if (exists)
                 {
-                    //update query
+                   
                     string updatequery = "UPDATE Carts Set Quantity= Quantity+@Quantity WHERE UserId=@UserId AND ItemId=@ItemId ";
 
                     using (var command= new SqlCommand(updatequery, connection))
@@ -47,7 +44,7 @@ namespace FoodOrderingSystem.Repositories.Implementations
                 }
                 else
                 {
-                    //add query
+                    
                     string insertQuery = "INSERT INTO Carts (UserId,ItemId, Quantity) VALUES (@UserId, @ItemId, @Quantity)";
 
 

@@ -11,10 +11,10 @@ namespace FoodOrderingSystem.Controllers
             _authServices = authServices;
         }
 
-        // GET: /account/login
+       
         public IActionResult Login()
         {
-            var userId = HttpContext.Session.GetInt32("UserId"); // fix
+            var userId = HttpContext.Session.GetInt32("UserId"); 
             var role = HttpContext.Session.GetString("Role");
 
             if (userId != null)
@@ -50,7 +50,7 @@ namespace FoodOrderingSystem.Controllers
 
         public IActionResult Register()
         {
-            if (HttpContext.Session.GetInt32("UserId") != null) // fix
+            if (HttpContext.Session.GetInt32("UserId") != null)
                 return RedirectToAction("Index", "Home");
 
             return View();
